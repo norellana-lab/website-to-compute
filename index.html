@@ -1,56 +1,325 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-  <!-- 
-      This is an HTML comment
-      You can write text in a comment and the content won't be visible in the page
-    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Logística Alisur">
+    
+    <title>Logística Alisur v13</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* SUAVIZADO DE FUENTES APPLE */
+        body { 
+            background-color: #f1f5f9; 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased; /* Texto nítido en iPhone */
+            padding-bottom: env(safe-area-inset-bottom); /* Respeta el botón home virtual */
+        }
 
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="https://glitch.com/favicon.ico" />
+        /* MODAL Y TOAST ANIMATIONS */
+        .modal-enter { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .toast-enter { animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .toast-exit { animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideDown { from { transform: translateY(-150%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUpFade { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-150%); opacity: 0; } }
 
-  <!--
-      This is the page head - it contains info the browser uses
-      Like the title, which appears on the browser tab but not inside the page
-      Further down you'll see the content that displays in the page
-    -->
-  <title>Hello World!</title>
-
-  <!-- The website stylesheet -->
-  <link rel="stylesheet" href="/style.css" />
-
-  <!-- The website JavaScript file -->
-  <script src="/script.js" defer></script>
+        .tab-active { background-color: #1e293b; color: white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); }
+        .tab-inactive { color: #64748b; background-color: transparent; }
+        .search-input:focus { outline: none; box-shadow: 0 0 0 2px #6366f1; }
+        
+        /* AJUSTE NOTCH IPHONE */
+        .sticky-header { padding-top: max(3rem, env(safe-area-inset-top)); }
+    </style>
 </head>
+<body class="pb-24 select-none bg-slate-100">
 
-<body>
-  <!--
-      The body includes the content you see in the page
-      Each element is defined using tags, like this <div></div>
-      The attributes like class="wrapper" let us style elements in the CSS
-    -->
-  <div class="wrapper">
-    <div class="content" role="main">
-      <h1 class="title">Oh hi website!</h1>
-      <img src="/cool-website.svg" class="illustration" alt="cool website" />
-      <div class="instructions">
-        <p>
-          Fork <a href="https://github.com/glitchdotcom/website-to-compute">this project</a> and open it in a GitHub Codespace.
-        </p>
-        <p> Follow the steps in the README to deploy your new website to Fastly in a few steps!
-        </p>
+    <audio id="alert-sound" src="data:audio/mp3;base64,SUQzBAAAAAABAFRYWFgAAAASAAADbWFqb3JfYnJhbmQAbXA0MgBUWFhYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFhYAAAAHAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzb21tcDQyAFRTU0UAAAAPAAADTGF2ZjU3LjU2LjEwMAAAAAAAAAAAAAAA//uQZAAAAAAA0AAAAABAAAA0AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAABHpO0AAEA2wAADSAAAAABH5O0AAEA2wAADSAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAABHpO0AAEA2wAADSAAAAABH5O0AAEA2wAADSAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAABHpO0AAEA2wAADSAAAAABH5O0AAEA2wAADSAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAABHpO0AAEA2wAADSAAAAABH5O0AAEA2wAADSAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></audio>
 
-      </div>
-
-      <footer class="footer">
-        <div>
-          <a class="remix" href="https://github.com/glitchdotcom/website-to-compute">🚧 Get your own site</a>
+    <div id="notification-toast" class="fixed top-4 left-4 right-4 z-[60] hidden" style="top: max(1rem, env(safe-area-inset-top));">
+        <div id="toast-content" class="bg-white rounded-xl shadow-2xl p-4 border-l-8 border-indigo-500 flex items-center justify-between">
+            <div class="flex items-center">
+                <div class="mr-4 bg-indigo-50 p-2 rounded-full text-indigo-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Alerta de Planta</p>
+                    <h4 id="toast-title" class="font-black text-slate-800 text-lg leading-none mt-1">Lote Actualizado</h4>
+                    <p id="toast-desc" class="text-sm text-slate-600 mt-1">El estado ha cambiado.</p>
+                </div>
+            </div>
         </div>
-      </footer>
     </div>
-  </div>
-</body>
 
+    <div class="bg-white pb-4 px-6 sticky top-0 z-40 shadow-sm border-b border-slate-200 sticky-header">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-black text-slate-900 tracking-tight">Logística Alisur</h1>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Control de Despacho</p>
+            </div>
+            <button onclick="window.location.reload()" class="h-10 w-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 border border-slate-200 active:bg-slate-200 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="sticky top-[105px] z-30 bg-slate-100/95 backdrop-blur-sm pb-2 shadow-sm" style="top: max(105px, calc(3rem + env(safe-area-inset-top) + 20px));">
+        <div class="px-4 py-4">
+            <div class="bg-slate-300/70 p-1.5 rounded-xl flex shadow-inner">
+                <button onclick="switchTab('hoy')" id="btn-hoy" class="w-1/2 py-3 rounded-lg text-xs font-black transition-all duration-200 tab-active tracking-wide">HOY</button>
+                <button onclick="switchTab('manana')" id="btn-manana" class="w-1/2 py-3 rounded-lg text-xs font-black transition-all duration-200 tab-inactive tracking-wide">MAÑANA</button>
+            </div>
+        </div>
+        <div class="px-4 pb-2">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Buscar ID, Cliente, Producto..." 
+                    class="search-input w-full pl-10 pr-4 py-3 bg-white border border-slate-300 rounded-xl text-sm font-bold text-slate-700 placeholder-slate-400 transition-all shadow-sm">
+            </div>
+        </div>
+    </div>
+
+    <div id="app-container" class="px-4 space-y-3 mt-4"></div>
+
+    <div id="detail-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-[32px] p-6 modal-enter h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6"></div>
+            <div id="modal-content"></div>
+            <button onclick="closeModal()" class="w-full mt-8 py-4 bg-slate-900 text-white rounded-xl font-bold text-lg shadow-lg active:scale-95 transition-transform mb-8">
+                Cerrar Ficha
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let db = [
+            { 
+                id: 504, cliente: "Agroindustrial del Sur", producto: "Concentrado Los Aromos", 
+                destino: "Puerto San Antonio", linea: "Línea 1", estado: "Primer Pesaje", dia: "hoy", 
+                formato: "Pellet 6mm", envase: "Granel", kilos: "25.400 Kg", 
+                hora_producida: "10:30 AM", chofer: "Juan Pérez", patente: "XX-YY-99", hora_entrada: "11:15 AM", hora_salida: "--", guia: "--"
+            },
+            { 
+                id: 505, cliente: "Roberto Silva", producto: "Concentrado El Roble", 
+                destino: "Frigorífico Paine", linea: "Línea 2", estado: "Producida", dia: "hoy", 
+                formato: "Pellet 3mm", envase: "Maxisaco", kilos: "12.800 Kg", 
+                hora_producida: "11:45 AM", chofer: "Por asignar", patente: "--", hora_entrada: "--", hora_salida: "--", guia: "--"
+            },
+            { 
+                id: 502, cliente: "Cencosud Retail", producto: "Concentrado Lo Valledor", 
+                destino: "CD Cencosud Pudahuel", linea: "Línea 1", estado: "Despachada", dia: "hoy", 
+                formato: "Harinado", envase: "Saco 25kg", kilos: "22.000 Kg", 
+                hora_producida: "08:00 AM", chofer: "Carlos Diaz", patente: "BB-CC-12", hora_entrada: "09:00 AM", hora_salida: "10:15 AM", guia: "998123"
+            },
+            { 
+                id: 508, cliente: "Exp. Santa Elena", producto: "Concentrado Maipo Alto", 
+                destino: "Planta Buin", linea: "Línea 1", estado: "En Proceso", dia: "hoy", 
+                formato: "Entero", envase: "Granel", kilos: "18.500 Kg", 
+                hora_producida: "Estimada 13:00", chofer: "--", patente: "--", hora_entrada: "--", hora_salida: "--", guia: "--"
+            },
+            { 
+                id: 601, cliente: "Frutícola San Pedro", producto: "Concentrado San Pedro", 
+                destino: "Puerto Valparaíso", linea: "Línea 2", estado: "Programada", dia: "manana", 
+                formato: "Pellet 8mm", envase: "Saco 40kg", kilos: "24.000 Kg", 
+                hora_producida: "Prog: 09:00 AM", chofer: "--", patente: "--", hora_entrada: "--", hora_salida: "--", guia: "--"
+            },
+            { 
+                id: 700, cliente: "Alisur Interno", producto: "Prueba Operativa L3", 
+                destino: "Laboratorio Central", linea: "Línea 3", estado: "Programada", dia: "hoy", 
+                formato: "Pellet 6mm", envase: "Maxisaco", kilos: "5.000 Kg", 
+                hora_producida: "Prog: 15:00 PM", chofer: "--", patente: "--", hora_entrada: "--", hora_salida: "--", guia: "--"
+            }
+        ];
+
+        let currentTab = 'hoy';
+
+        function triggerAlert(id, nuevoEstado) {
+            try {
+                const sound = document.getElementById('alert-sound');
+                sound.volume = 0.5;
+                sound.play().catch(e => console.log("Audio bloqueado"));
+            } catch(e) {}
+
+            const toast = document.getElementById('notification-toast');
+            const title = document.getElementById('toast-title');
+            const desc = document.getElementById('toast-desc');
+            const content = document.getElementById('toast-content');
+
+            let borderColor = "border-slate-500";
+            if(nuevoEstado === "Producida") borderColor = "border-emerald-500";
+            else if(nuevoEstado === "En Proceso") borderColor = "border-orange-500";
+
+            content.className = `bg-white rounded-xl shadow-2xl p-4 border-l-8 ${borderColor} flex items-center justify-between`;
+            title.innerHTML = `Lote #${id}`;
+            desc.innerHTML = `Nuevo estado: <span class="font-bold uppercase">${nuevoEstado}</span>`;
+
+            toast.classList.remove('hidden', 'toast-exit');
+            toast.classList.add('toast-enter');
+
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+            }, 5000);
+        }
+
+        setTimeout(() => {
+            const targetId = 504; 
+            const newStatus = "Producida"; 
+            const itemIndex = db.findIndex(i => i.id === targetId);
+            if(itemIndex !== -1) {
+                db[itemIndex].estado = newStatus;
+                renderCards(currentTab);
+                triggerAlert(targetId, newStatus);
+            }
+        }, 4000);
+
+        function filterCards() { renderCards(currentTab); }
+
+        function renderCards(filterDia) {
+            currentTab = filterDia;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const container = document.getElementById('app-container');
+            container.innerHTML = ''; 
+
+            const filtered = db.filter(i => {
+                const matchDia = i.dia === filterDia;
+                const matchSearch = i.id.toString().includes(searchTerm) || 
+                                    i.cliente.toLowerCase().includes(searchTerm) || 
+                                    i.producto.toLowerCase().includes(searchTerm);
+                return matchDia && matchSearch;
+            });
+
+            if(filtered.length === 0) container.innerHTML = '<div class="text-center text-slate-400 mt-10 italic">No se encontraron lotes.</div>';
+
+            filtered.forEach(item => {
+                let theme = { card: "bg-white border-slate-300", badge: "bg-slate-100 text-slate-600" };
+                if(item.estado === "En Proceso") theme = { card: "bg-orange-50 border-orange-300", badge: "bg-orange-200 text-orange-900" };
+                else if(item.estado === "Programada") theme = { card: "bg-sky-50 border-sky-300", badge: "bg-sky-200 text-sky-900" };
+                else if(item.estado === "Producida") theme = { card: "bg-emerald-50 border-emerald-300", badge: "bg-emerald-200 text-emerald-900" };
+                else if(item.estado === "Primer Pesaje") theme = { card: "bg-purple-50 border-purple-300", badge: "bg-purple-200 text-purple-900" };
+                else if(item.estado === "Despachada") theme = { card: "bg-slate-100 border-slate-300 opacity-70", badge: "bg-slate-300 text-slate-600" };
+
+                let lineaBadge = "bg-white border-slate-200 text-slate-500";
+                if(item.linea === "Línea 3") lineaBadge = "bg-slate-800 border-slate-900 text-white";
+
+                container.innerHTML += `
+                    <div onclick="openModal(${item.id})" class="${theme.card} p-5 rounded-2xl border mb-3 relative active:scale-95 transition-transform cursor-pointer shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="font-black text-4xl text-slate-800 tracking-tighter">#${item.id}</span>
+                            <span class="text-[10px] font-bold px-2 py-1 rounded-md border uppercase tracking-wider ${lineaBadge}">${item.linea}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-indigo-700 leading-tight mb-0.5">${item.cliente}</h3>
+                        <p class="text-sm font-medium text-slate-500 mb-4">${item.producto}</p>
+
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <div class="bg-slate-50 p-2 rounded-lg border border-slate-200/60 text-center">
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">Formato</p>
+                                <p class="text-xs font-bold text-slate-700 leading-tight mt-1">${item.formato}</p>
+                            </div>
+                            <div class="bg-slate-50 p-2 rounded-lg border border-slate-200/60 text-center">
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">Envase</p>
+                                <p class="text-xs font-bold text-slate-700 leading-tight mt-1">${item.envase}</p>
+                            </div>
+                            <div class="bg-slate-50 p-2 rounded-lg border border-slate-200/60 text-center">
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">Total</p>
+                                <p class="text-xs font-bold text-slate-700 leading-tight mt-1">${item.kilos}</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-5 flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Hacia:</span>
+                            <span class="text-xs font-bold text-slate-700 uppercase">${item.destino}</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mt-2">
+                             <div class="font-bold text-[10px] uppercase tracking-widest ${theme.badge} px-3 py-1.5 rounded-md transition-colors duration-500">
+                                ${item.estado}
+                            </div>
+                             <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openModal(id) {
+            const item = db.find(i => i.id === id);
+            if(!item) return;
+            let colorHeader = "bg-slate-100 text-slate-800";
+            if(item.estado === "Primer Pesaje") colorHeader = "bg-purple-600 text-white";
+            else if(item.estado === "Producida") colorHeader = "bg-emerald-500 text-white";
+            else if(item.estado === "Despachada") colorHeader = "bg-slate-700 text-white";
+            else if(item.estado === "En Proceso") colorHeader = "bg-orange-500 text-white";
+            else if(item.estado === "Programada") colorHeader = "bg-sky-500 text-white";
+
+            document.getElementById('modal-content').innerHTML = `
+                <div class="${colorHeader} -mx-6 -mt-6 p-8 rounded-b-[32px] mb-8 shadow-md text-center transition-colors duration-500">
+                    <h2 class="text-6xl font-black mb-1 opacity-95">#${item.id}</h2>
+                    <div class="inline-block mt-2 px-4 py-1 bg-white/20 rounded-full backdrop-blur-sm">
+                        <p class="text-xs font-bold uppercase tracking-widest text-white/90">${item.estado}</p>
+                    </div>
+                </div>
+                <div class="px-2 mb-6">
+                    <h3 class="text-xl font-bold text-indigo-800 leading-tight mb-1">${item.cliente}</h3>
+                    <p class="text-sm text-slate-500 font-medium mb-4 border-b border-slate-100 pb-4">${item.producto}</p>
+                    
+                    <div class="grid grid-cols-3 gap-2 mb-4">
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
+                            <p class="uppercase text-slate-400 font-bold text-[9px]">Formato</p>
+                            <p class="font-bold text-slate-800 text-xs mt-1">${item.formato}</p>
+                        </div>
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
+                            <p class="uppercase text-slate-400 font-bold text-[9px]">Envase</p>
+                            <p class="font-bold text-slate-800 text-xs mt-1">${item.envase}</p>
+                        </div>
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
+                            <p class="uppercase text-slate-400 font-bold text-[9px]">Total</p>
+                            <p class="font-bold text-slate-800 text-xs mt-1">${item.kilos}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex items-center justify-between">
+                        <span class="uppercase text-slate-400 font-bold text-[10px] tracking-wider">Destino Final</span>
+                        <span class="font-bold text-slate-800 text-sm flex items-center">${item.destino}</span>
+                    </div>
+                </div>
+                <div class="space-y-6 px-2">
+                    <div class="flex relative pb-8 border-l-2 border-slate-200 ml-3 pl-8">
+                        <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-400 border-2 border-white"></div>
+                        <div><p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Producción</p><h4 class="text-base font-bold text-slate-800">Hora Producida</h4><p class="text-slate-600 font-mono text-lg">${item.hora_producida}</p></div>
+                    </div>
+                     <div class="flex relative ml-3 pl-8">
+                        <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-800 border-2 border-white"></div>
+                        <div><p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Documentación</p><h4 class="text-base font-bold text-slate-800">N° Guía</h4><p class="text-xl font-mono text-slate-700 font-bold tracking-wider mt-1">${item.guia}</p></div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('detail-modal').classList.add('hidden'); }
+        function switchTab(tab) {
+            const btnHoy = document.getElementById('btn-hoy');
+            const btnManana = document.getElementById('btn-manana');
+            if(tab === 'hoy') {
+                btnHoy.className = "w-1/2 py-3 rounded-lg text-xs font-black transition-all duration-200 tab-active tracking-wide";
+                btnManana.className = "w-1/2 py-3 rounded-lg text-xs font-black transition-all duration-200 tab-inactive tracking-wide";
+            } else {
+                btnHoy.className = "w-1/2 py-3 rounded-lg text-xs font-black transition-all duration-200 tab-inactive tracking-wide";
+                btnManana.className = "w-1/2 py-3 rounded-lg text-xs font-black transition-all duration-200 tab-active tracking-wide";
+            }
+            renderCards(tab);
+        }
+        renderCards('hoy');
+    </script>
+</body>
 </html>
